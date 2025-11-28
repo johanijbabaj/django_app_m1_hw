@@ -1,86 +1,161 @@
 {% extends 'base.html' %}
+{% load i18n %}
+{% load static %}
 
-{% block title %}My TODOs - TODO App{% endblock %}
+{% block title %}{% trans "My TODOs" %} - {% trans "TODO App" %}{% endblock %}
 
 {% block content %}
 <div class="flex justify-between items-center mb-8">
-    <h1 class="text-3xl font-bold text-gray-900">My TODOs</h1>
-    <a href="{% url 'todo_create' %}" class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-lg transition font-semibold">
-        + Add TODO
-    </a>
-</div>
-
-{% if todos %}
-    <div class="grid gap-4">
-        {% for todo in todos %}
-            <div class="bg-white rounded-lg shadow-md p-6 border-l-4 {% if todo.is_completed %}border-green-500 bg-green-50{% elif todo.due_date and todo.due_date < today %}border-red-500 bg-red-50{% else %}border-indigo-500{% endif %}">
-                <div class="flex justify-between items-start">
-                    <div class="flex-1">
-                        <div class="flex items-center space-x-3">
-                            <form action="{% url 'todo_toggle' todo.pk %}" method="post" class="inline">
-                                {% csrf_token %}
-                                <button type="submit" class="focus:outline-none">
-                                    {% if todo.is_completed %}
-                                        <svg class="w-6 h-6 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                                        </svg>
-                                    {% else %}
-                                        <svg class="w-6 h-6 text-gray-400 hover:text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <circle cx="12" cy="12" r="10" stroke-width="2"/>
-                                        </svg>
-                                    {% endif %}
-                                </button>
-                            </form>
-                            <h3 class="text-xl font-semibold {% if todo.is_completed %}line-through text-gray-500{% else %}text-gray-900{% endif %}">
-                                {{ todo.title }}
-                            </h3>
-                        </div>
-
-                        {% if todo.description %}
-                            <p class="mt-2 text-gray-600 ml-9">{{ todo.description }}</p>
-                        {% endif %}
-
-                        <div class="mt-3 flex items-center space-x-4 ml-9 text-sm text-gray-500">
-                            {% if todo.due_date %}
-                                <span class="flex items-center {% if not todo.is_completed and todo.due_date < today %}text-red-600 font-semibold{% endif %}">
-                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                                    </svg>
-                                    Due: {{ todo.due_date }}
-                                    {% if not todo.is_completed and todo.due_date < today %}
-                                        (Overdue!)
-                                    {% endif %}
-                                </span>
-                            {% endif %}
-                            <span class="text-xs">Created: {{ todo.created_at|date:"M d, Y" }}</span>
-                        </div>
-                    </div>
-
-                    <div class="flex space-x-2 ml-4">
-                        <a href="{% url 'todo_update' todo.pk %}" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded transition">
-                            Edit
-                        </a>
-                        <form action="{% url 'todo_delete' todo.pk %}" method="post" class="inline" onsubmit="return confirm('Are you sure you want to delete this TODO?');">
-                            {% csrf_token %}
-                            <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded transition">
-                                Delete
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        {% endfor %}
-    </div>
-{% else %}
-    <div class="bg-white rounded-lg shadow-md p-12 text-center">
-        <svg class="w-24 h-24 mx-auto text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
-        </svg>
-        <h2 class="text-2xl font-semibold text-gray-700 mb-2">No TODOs yet!</h2>
-        <p class="text-gray-500 mb-6">Start by creating your first TODO</p>
-        <a href="{% url 'todo_create' %}" class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-lg transition font-semibold">
-            + Create Your First TODO
+    <h1 class="text-3xl font-bold text-gray-900">{% trans "My TODOs" %}</h1>
+    <div class="flex space-x-2">
+        <button id="listViewBtn" class="bg-indigo-600 text-white px-4 py-2 rounded-lg transition font-semibold">
+            {% trans "List" %}
+        </button>
+        <button id="calendarViewBtn" class="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg transition font-semibold hover:bg-gray-400">
+            {% trans "Calendar" %}
+        </button>
+        <a href="{% url 'todo_create' %}" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg transition font-semibold">
+            + {% trans "Add TODO" %}
         </a>
     </div>
-{% endif %}
+</div>
+
+<!-- List View -->
+<div id="listView">
+    {% if todos %}
+        <div class="grid gap-4">
+            {% for todo in todos %}
+                <div class="bg-white rounded-lg shadow-md p-6 border-l-4 {% if todo.is_completed %}border-green-500 bg-green-50{% elif todo.due_date and todo.due_date < today %}border-red-500 bg-red-50{% else %}border-indigo-500{% endif %}">
+                    <div class="flex justify-between items-start">
+                        <div class="flex-1">
+                            <div class="flex items-center space-x-3">
+                                <form action="{% url 'todo_toggle' todo.pk %}" method="post" class="inline">
+                                    {% csrf_token %}
+                                    <button type="submit" class="focus:outline-none">
+                                        {% if todo.is_completed %}
+                                            <svg class="w-6 h-6 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                            </svg>
+                                        {% else %}
+                                            <svg class="w-6 h-6 text-gray-400 hover:text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <circle cx="12" cy="12" r="10" stroke-width="2"/>
+                                            </svg>
+                                        {% endif %}
+                                    </button>
+                                </form>
+                                <h3 class="text-xl font-semibold {% if todo.is_completed %}line-through text-gray-500{% else %}text-gray-900{% endif %}">
+                                    {{ todo.title }}
+                                </h3>
+                            </div>
+
+                            {% if todo.description %}
+                                <p class="mt-2 text-gray-600 ml-9">{{ todo.description }}</p>
+                            {% endif %}
+
+                            <div class="mt-3 flex items-center space-x-4 ml-9 text-sm text-gray-500">
+                                {% if todo.due_date %}
+                                    <span class="flex items-center {% if not todo.is_completed and todo.due_date < today %}text-red-600 font-semibold{% endif %}">
+                                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                        </svg>
+                                        {% trans "Due" %}: {{ todo.due_date }}
+                                        {% if not todo.is_completed and todo.due_date < today %}
+                                            ({% trans "Overdue" %}!)
+                                        {% endif %}
+                                    </span>
+                                {% endif %}
+                                <span class="text-xs">{% trans "Created" %}: {{ todo.created_at|date:"M d, Y" }}</span>
+                            </div>
+                        </div>
+
+                        <div class="flex space-x-2 ml-4">
+                            <a href="{% url 'todo_update' todo.pk %}" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded transition">
+                                {% trans "Edit" %}
+                            </a>
+                            <form action="{% url 'todo_delete' todo.pk %}" method="post" class="inline" onsubmit="return confirm('{% trans 'Are you sure you want to delete this TODO?' %}');">
+                                {% csrf_token %}
+                                <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded transition">
+                                    {% trans "Delete" %}
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="bg-white rounded-lg shadow-md p-12 text-center">
+            <svg class="w-24 h-24 mx-auto text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+            </svg>
+            <h2 class="text-2xl font-semibold text-gray-700 mb-2">{% trans "No TODOs yet!" %}</h2>
+            <p class="text-gray-500 mb-6">{% trans "Start by creating your first TODO" %}</p>
+            <a href="{% url 'todo_create' %}" class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-lg transition font-semibold">
+                + {% trans "Create Your First TODO" %}
+            </a>
+        </div>
+    {% endif %}
+</div>
+
+<!-- Calendar View (hidden by default) -->
+<div id="calendarView" style="display: none;">
+    <div id="inlineCalendar" class="bg-white rounded-lg shadow-lg p-4"></div>
+</div>
+
+<!-- FullCalendar CDN -->
+<link href='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.css' rel='stylesheet' />
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
+
+<script>
+let inlineCalendar = null;
+
+// Toggle between list and calendar views
+document.getElementById('calendarViewBtn').addEventListener('click', function() {
+    document.getElementById('listView').style.display = 'none';
+    document.getElementById('calendarView').style.display = 'block';
+    this.classList.remove('bg-gray-300', 'text-gray-700');
+    this.classList.add('bg-indigo-600', 'text-white');
+    document.getElementById('listViewBtn').classList.remove('bg-indigo-600', 'text-white');
+    document.getElementById('listViewBtn').classList.add('bg-gray-300', 'text-gray-700');
+
+    if (!inlineCalendar) {
+        initInlineCalendar();
+    }
+});
+
+document.getElementById('listViewBtn').addEventListener('click', function() {
+    document.getElementById('listView').style.display = 'block';
+    document.getElementById('calendarView').style.display = 'none';
+    this.classList.remove('bg-gray-300', 'text-gray-700');
+    this.classList.add('bg-indigo-600', 'text-white');
+    document.getElementById('calendarViewBtn').classList.remove('bg-indigo-600', 'text-white');
+    document.getElementById('calendarViewBtn').classList.add('bg-gray-300', 'text-gray-700');
+});
+
+function initInlineCalendar() {
+    const calendarEl = document.getElementById('inlineCalendar');
+    inlineCalendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        headerToolbar: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek,listWeek'
+        },
+        events: '{% url "todo_calendar_api" %}',
+        eventClick: function(info) {
+            window.location.href = `/update/${info.event.id}/`;
+        },
+        locale: '{{ LANGUAGE_CODE }}',
+        height: 'auto',
+        editable: false,
+        eventColor: '#4F46E5',
+        eventTimeFormat: {
+            hour: '2-digit',
+            minute: '2-digit',
+            meridiem: false
+        }
+    });
+    inlineCalendar.render();
+}
+</script>
 {% endblock %}

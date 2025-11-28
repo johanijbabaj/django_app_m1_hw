@@ -1,0 +1,260 @@
+# Russian translation for TODO App
+# Copyright (C) 2025
+# This file is distributed under the same license as the TODO App package.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-11-28 16:54+0000\n"
+"PO-Revision-Date: 2025-11-28 17:00+0000\n"
+"Last-Translator: Django TODO App\n"
+"Language-Team: Russian\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
+"(n%100>=11 && n%100<=14)? 2 : 3);\n"
+
+#: todos/forms.py:10 todos/templates/todo_form.html:48
+msgid "Due Date"
+msgstr "Срок выполнения"
+
+#: todos/forms.py:22 todos/templates/todo_form.html:28
+msgid "Title"
+msgstr "Название"
+
+#: todos/forms.py:23 todos/templates/todo_form.html:38
+msgid "Description"
+msgstr "Описание"
+
+#: todos/forms.py:28
+msgid "Enter todo title"
+msgstr "Введите название задачи"
+
+#: todos/forms.py:33
+msgid "Enter todo description (optional)"
+msgstr "Введите описание задачи (необязательно)"
+
+#: todos/forms.py:40 todos/templates/registration/register.html:35
+msgid "Email"
+msgstr "Email"
+
+#: todos/forms.py:44
+msgid "Enter your email"
+msgstr "Введите ваш email"
+
+#: todos/forms.py:52 todos/templates/registration/login.html:22
+#: todos/templates/registration/register.html:22
+msgid "Username"
+msgstr "Имя пользователя"
+
+#: todos/forms.py:57
+msgid "Choose a username"
+msgstr "Выберите имя пользователя"
+
+#: todos/forms.py:63 todos/templates/registration/login.html:34
+#: todos/templates/registration/register.html:45
+msgid "Password"
+msgstr "Пароль"
+
+#: todos/forms.py:64 todos/templates/registration/register.html:58
+msgid "Confirm Password"
+msgstr "Подтвердите пароль"
+
+#: todos/forms.py:67
+msgid "Enter password"
+msgstr "Введите пароль"
+
+#: todos/forms.py:71
+msgid "Confirm password"
+msgstr "Подтвердите пароль"
+
+#: todos/models.py:7
+msgid "title"
+msgstr "название"
+
+#: todos/models.py:8
+msgid "description"
+msgstr "описание"
+
+#: todos/models.py:9
+msgid "due date"
+msgstr "срок выполнения"
+
+#: todos/models.py:10
+msgid "is completed"
+msgstr "выполнено"
+
+#: todos/models.py:11
+msgid "created at"
+msgstr "создано"
+
+#: todos/models.py:12
+msgid "updated at"
+msgstr "обновлено"
+
+#: todos/models.py:13
+msgid "user"
+msgstr "пользователь"
+
+#: todos/models.py:17 todos/templates/todo_form.html:4
+msgid "TODO"
+msgstr "ЗАДАЧА"
+
+#: todos/models.py:18
+msgid "TODOs"
+msgstr "ЗАДАЧИ"
+
+#: todos/templates/base.html:8 todos/templates/base.html:18
+#: todos/templates/calendar.html:5 todos/templates/home.html:5
+#: todos/templates/registration/login.html:4
+#: todos/templates/registration/register.html:4
+#: todos/templates/todo_form.html:4
+msgid "TODO App"
+msgstr "Список задач"
+
+#: todos/templates/base.html:17
+msgid "TODO App Logo"
+msgstr "Логотип приложения"
+
+#: todos/templates/base.html:20 todos/templates/home.html:12
+msgid "List"
+msgstr "Список"
+
+#: todos/templates/base.html:21 todos/templates/calendar.html:5
+#: todos/templates/home.html:15
+msgid "Calendar"
+msgstr "Календарь"
+
+#: todos/templates/base.html:26
+msgid "Welcome"
+msgstr "Добро пожаловать"
+
+#: todos/templates/base.html:27
+msgid "Logout"
+msgstr "Выход"
+
+#: todos/templates/base.html:29 todos/templates/registration/login.html:4
+#: todos/templates/registration/login.html:45
+msgid "Login"
+msgstr "Вход"
+
+#: todos/templates/base.html:30 todos/templates/registration/register.html:4
+#: todos/templates/registration/register.html:67
+msgid "Register"
+msgstr "Регистрация"
+
+#: todos/templates/base.html:78
+msgid "Django TODO App - ZoomCamp Module 1 Homework"
+msgstr "Django список задач - Домашнее задание ZoomCamp Модуль 1"
+
+#: todos/templates/calendar.html:9
+msgid "TODO Calendar"
+msgstr "Календарь задач"
+
+#: todos/templates/calendar.html:11 todos/templates/home.html:18
+msgid "Add TODO"
+msgstr "Добавить задачу"
+
+#: todos/templates/calendar.html:21
+msgid "Legend"
+msgstr "Легенда"
+
+#: todos/templates/calendar.html:25
+msgid "Active"
+msgstr "Активные"
+
+#: todos/templates/calendar.html:29
+msgid "Completed"
+msgstr "Выполненные"
+
+#: todos/templates/calendar.html:33 todos/templates/home.html:63
+msgid "Overdue"
+msgstr "Просроченные"
+
+#: todos/templates/home.html:5 todos/templates/home.html:9
+msgid "My TODOs"
+msgstr "Мои задачи"
+
+#: todos/templates/home.html:61
+msgid "Due"
+msgstr "Срок"
+
+#: todos/templates/home.html:67
+msgid "Created"
+msgstr "Создано"
+
+#: todos/templates/home.html:73 todos/templates/todo_form.html:4
+msgid "Edit"
+msgstr "Редактировать"
+
+#: todos/templates/home.html:75
+msgid "Are you sure you want to delete this TODO?"
+msgstr "Вы уверены, что хотите удалить эту задачу?"
+
+#: todos/templates/home.html:78
+msgid "Delete"
+msgstr "Удалить"
+
+#: todos/templates/home.html:91
+msgid "No TODOs yet!"
+msgstr "Задач пока нет!"
+
+#: todos/templates/home.html:92
+msgid "Start by creating your first TODO"
+msgstr "Начните с создания вашей первой задачи"
+
+#: todos/templates/home.html:94
+msgid "Create Your First TODO"
+msgstr "Создать первую задачу"
+
+#: todos/templates/registration/login.html:8
+msgid "Login to Your Account"
+msgstr "Вход в ваш аккаунт"
+
+#: todos/templates/registration/login.html:50
+msgid "Don't have an account?"
+msgstr "Нет аккаунта?"
+
+#: todos/templates/registration/login.html:51
+msgid "Register here"
+msgstr "Зарегистрируйтесь здесь"
+
+#: todos/templates/registration/register.html:8
+msgid "Create Your Account"
+msgstr "Создайте ваш аккаунт"
+
+#: todos/templates/registration/register.html:72
+msgid "Already have an account?"
+msgstr "Уже есть аккаунт?"
+
+#: todos/templates/registration/register.html:73
+msgid "Login here"
+msgstr "Войдите здесь"
+
+#: todos/templates/todo_form.html:4
+msgid "Create"
+msgstr "Создать"
+
+#: todos/templates/todo_form.html:10
+msgid "Edit TODO"
+msgstr "Редактировать задачу"
+
+#: todos/templates/todo_form.html:12
+msgid "Create New TODO"
+msgstr "Создать новую задачу"
+
+#: todos/templates/todo_form.html:59
+msgid "Update TODO"
+msgstr "Обновить задачу"
+
+#: todos/templates/todo_form.html:61
+msgid "Create TODO"
+msgstr "Создать задачу"
+
+#: todos/templates/todo_form.html:65
+msgid "Cancel"
+msgstr "Отмена"

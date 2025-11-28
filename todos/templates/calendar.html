@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block title %}{% trans "Calendar" %} - {% trans "TODO App" %}{% endblock %}
+
+{% block content %}
+<div class="flex justify-between items-center mb-8">
+    <h1 class="text-3xl font-bold text-gray-900">{% trans "TODO Calendar" %}</h1>
+    <a href="{% url 'todo_create' %}" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg transition font-semibold">
+        + {% trans "Add TODO" %}
+    </a>
+</div>
+
+<div class="bg-white rounded-lg shadow-lg p-6">
+    <div id="calendar"></div>
+</div>
+
+<!-- Legend -->
+<div class="mt-6 bg-white rounded-lg shadow-md p-4">
+    <h3 class="text-lg font-semibold mb-3">{% trans "Legend" %}</h3>
+    <div class="flex flex-wrap gap-4">
+        <div class="flex items-center">
+            <div class="w-4 h-4 bg-indigo-600 rounded mr-2"></div>
+            <span class="text-sm">{% trans "Active" %}</span>
+        </div>
+        <div class="flex items-center">
+            <div class="w-4 h-4 bg-green-500 rounded mr-2"></div>
+            <span class="text-sm">{% trans "Completed" %}</span>
+        </div>
+        <div class="flex items-center">
+            <div class="w-4 h-4 bg-red-500 rounded mr-2"></div>
+            <span class="text-sm">{% trans "Overdue" %}</span>
+        </div>
+    </div>
+</div>
+
+<!-- FullCalendar CDN -->
+<link href='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.css' rel='stylesheet' />
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const calendarEl = document.getElementById('calendar');
+    const calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        headerToolbar: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek,listWeek'
+        },
+        events: '{% url "todo_calendar_api" %}',
+        eventClick: function(info) {
+            // Redirect to edit page when clicking an event
+            window.location.href = `/update/${info.event.id}/`;
+        },
+        locale: '{{ LANGUAGE_CODE }}',
+        height: 'auto',
+        editable: false,
+        eventTimeFormat: {
+            hour: '2-digit',
+            minute: '2-digit',
+            meridiem: false
+        },
+        eventDidMount: function(info) {
+            // Add tooltip with description
+            if (info.event.extendedProps.description) {
+                info.el.title = info.event.extendedProps.description;
+            }
+        }
+    });
+    calendar.render();
+});
+</script>
+{% endblock %}

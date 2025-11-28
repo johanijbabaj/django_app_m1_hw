@@ -1,10 +1,11 @@
 {% extends 'base.html' %}
+{% load i18n %}
 
-{% block title %}Register - TODO App{% endblock %}
+{% block title %}{% trans "Register" %} - {% trans "TODO App" %}{% endblock %}
 
 {% block content %}
 <div class="max-w-md mx-auto">
-    <h1 class="text-3xl font-bold text-gray-900 mb-8 text-center">Create Your Account</h1>
+    <h1 class="text-3xl font-bold text-gray-900 mb-8 text-center">{% trans "Create Your Account" %}</h1>
 
     <div class="bg-white rounded-lg shadow-md p-8">
         <form method="post">
@@ -18,7 +19,7 @@
 
             <div class="mb-6">
                 <label for="{{ form.username.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
-                    Username *
+                    {% trans "Username" %} *
                 </label>
                 {{ form.username }}
                 {% if form.username.errors %}
@@ -31,7 +32,7 @@
 
             <div class="mb-6">
                 <label for="{{ form.email.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
-                    Email *
+                    {% trans "Email" %} *
                 </label>
                 {{ form.email }}
                 {% if form.email.errors %}
@@ -41,7 +42,7 @@
 
             <div class="mb-6">
                 <label for="{{ form.password1.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
-                    Password *
+                    {% trans "Password" %} *
                 </label>
                 {{ form.password1 }}
                 {% if form.password1.errors %}
@@ -54,7 +55,7 @@
 
             <div class="mb-6">
                 <label for="{{ form.password2.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
-                    Confirm Password *
+                    {% trans "Confirm Password" %} *
                 </label>
                 {{ form.password2 }}
                 {% if form.password2.errors %}
@@ -63,13 +64,13 @@
             </div>
 
             <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg transition">
-                Register
+                {% trans "Register" %}
             </button>
         </form>
 
         <div class="mt-6 text-center">
-            <p class="text-gray-600">Already have an account?
-                <a href="{% url 'login' %}" class="text-indigo-600 hover:text-indigo-800 font-semibold">Login here</a>
+            <p class="text-gray-600">{% trans "Already have an account?" %}
+                <a href="{% url 'login' %}" class="text-indigo-600 hover:text-indigo-800 font-semibold">{% trans "Login here" %}</a>
             </p>
         </div>
     </div>

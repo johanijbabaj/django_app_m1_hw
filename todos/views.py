@@ -5,8 +5,9 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.utils import timezone
+from django.utils.translation import gettext as _
 from .models import Todo
 from .forms import TodoForm, UserRegistrationForm
 
@@ -83,3 +84,42 @@ def register(request):
 class CustomLoginView(LoginView):
     template_name = 'registration/login.html'
     redirect_authenticated_user = True
+
+
+class TodoCalendarView(LoginRequiredMixin, ListView):
+    model = Todo
+    template_name = 'calendar.html'
+    context_object_name = 'todos'
+
+    def get_queryset(self):
+        return Todo.objects.filter(user=self.request.user)
+
+
+@login_required
+def todo_calendar_api(request):
+    """API endpoint for FullCalendar to fetch events"""
+    todos = Todo.objects.filter(user=request.user)
+    events = []
+
+    for todo in todos:
+        # Determine event color based on status
+        if todo.is_completed:
+            color = '#10B981'  # Green for completed
+        elif todo.due_date and todo.due_date < timezone.now().date():
+            color = '#EF4444'  # Red for overdue
+        else:
+            color = '#4F46E5'  # Indigo for active
+
+        event = {
+            'id': todo.pk,
+            'title': todo.title,
+            'start': todo.due_date.isoformat() if todo.due_date else timezone.now().date().isoformat(),
+            'color': color,
+            'extendedProps': {
+                'description': todo.description,
+                'is_completed': todo.is_completed,
+            }
+        }
+        events.append(event)
+
+    return JsonResponse(events, safe=False)

@@ -1,0 +1,5 @@
+<svg width="200" height="50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 50">
+  <circle cx="25" cy="25" r="20" fill="#4F46E5"/>
+  <path d="M15,25 L22,32 L35,18" stroke="white" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="55" y="35" font-family="Arial, sans-serif" font-size="24" fill="#4F46E5" font-weight="bold">TODO</text>
+</svg>

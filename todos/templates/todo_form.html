@@ -1,14 +1,15 @@
 {% extends 'base.html' %}
+{% load i18n %}
 
-{% block title %}{% if form.instance.pk %}Edit{% else %}Create{% endif %} TODO - TODO App{% endblock %}
+{% block title %}{% if form.instance.pk %}{% trans "Edit" %}{% else %}{% trans "Create" %}{% endif %} {% trans "TODO" %} - {% trans "TODO App" %}{% endblock %}
 
 {% block content %}
 <div class="max-w-2xl mx-auto">
     <h1 class="text-3xl font-bold text-gray-900 mb-8">
         {% if form.instance.pk %}
-            Edit TODO
+            {% trans "Edit TODO" %}
         {% else %}
-            Create New TODO
+            {% trans "Create New TODO" %}
         {% endif %}
     </h1>
 
@@ -24,7 +25,7 @@
 
             <div class="mb-6">
                 <label for="{{ form.title.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
-                    Title *
+                    {% trans "Title" %} *
                 </label>
                 {{ form.title }}
                 {% if form.title.errors %}
@@ -34,7 +35,7 @@
 
             <div class="mb-6">
                 <label for="{{ form.description.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
-                    Description
+                    {% trans "Description" %}
                 </label>
                 {{ form.description }}
                 {% if form.description.errors %}
@@ -44,7 +45,7 @@
 
             <div class="mb-6">
                 <label for="{{ form.due_date.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
-                    Due Date
+                    {% trans "Due Date" %}
                 </label>
                 {{ form.due_date }}
                 {% if form.due_date.errors %}
@@ -55,13 +56,13 @@
             <div class="flex space-x-4">
                 <button type="submit" class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded-lg transition">
                     {% if form.instance.pk %}
-                        Update TODO
+                        {% trans "Update TODO" %}
                     {% else %}
-                        Create TODO
+                        {% trans "Create TODO" %}
                     {% endif %}
                 </button>
                 <a href="{% url 'todo_list' %}" class="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded-lg transition text-center">
-                    Cancel
+                    {% trans "Cancel" %}
                 </a>
             </div>
         </form>

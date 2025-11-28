@@ -1,9 +1,10 @@
 # Django TODO Application - ZoomCamp Module 1 Homework
 
-A full-featured TODO application built with Django, featuring user authentication, CRUD operations, and a modern Tailwind CSS interface.
+A full-featured TODO application built with Django, featuring user authentication, CRUD operations, multi-language support, calendar view, and a modern Tailwind CSS interface.
 
 ## Features
 
+### Core Features
 - User registration and authentication
 - Create, read, update, and delete TODOs
 - Assign due dates to TODOs
@@ -13,12 +14,37 @@ A full-featured TODO application built with Django, featuring user authenticatio
 - User-specific TODO lists (each user sees only their own TODOs)
 - Admin panel for managing TODOs
 
+### New Features
+- **🌍 Multi-Language Support (i18n)**: Full internationalization with 5 languages
+  - English (default)
+  - Russian (Русский)
+  - Spanish (Español)
+  - Chinese Simplified (中文)
+  - German (Deutsch)
+  - Language switcher in navigation
+  - Fully translated UI, forms, and messages
+
+- **📅 Calendar View**: Interactive calendar for visualizing TODOs
+  - Dedicated calendar page with FullCalendar.js integration
+  - Inline calendar toggle on home page
+  - Color-coded events:
+    - 🟢 Green: Completed TODOs
+    - 🔴 Red: Overdue TODOs
+    - 🔵 Indigo: Active TODOs
+  - Multiple view options (month, week, list)
+  - Click events to edit TODOs
+  - JSON API endpoint for calendar data
+
+- **🎨 Custom Logo**: SVG-based scalable logo with favicon support
+
 ## Technology Stack
 
 - Python 3.8+
 - Django 4.2.26
 - SQLite (database)
-- Tailwind CSS (styling)
+- Tailwind CSS (styling via CDN)
+- FullCalendar.js 6.1.10 (calendar functionality)
+- Django i18n framework (internationalization)
 - uv (package manager)
 
 ## Installation
@@ -59,17 +85,27 @@ uv pip install django
 python manage.py migrate
 ```
 
-6. Create a superuser (optional, for admin panel):
+6. Compile translation messages (for multi-language support):
+```bash
+python manage.py compilemessages
+```
+
+7. Create a superuser (optional, for admin panel):
 ```bash
 python manage.py createsuperuser
 ```
 
-7. Run the development server:
+8. Run the development server:
 ```bash
 python manage.py runserver
 ```
 
-8. Access the application at: http://127.0.0.1:8000/
+9. Access the application at: http://127.0.0.1:8000/
+   - English version: http://127.0.0.1:8000/en/
+   - Russian version: http://127.0.0.1:8000/ru/
+   - Spanish version: http://127.0.0.1:8000/es/
+   - Chinese version: http://127.0.0.1:8000/zh-hans/
+   - German version: http://127.0.0.1:8000/de/
 
 ## Homework Questions & Answers
 
@@ -152,11 +188,13 @@ This is Django's built-in test runner command. It runs all tests in the project:
 python manage.py test
 ```
 
-Our test suite includes 18 tests covering:
-- Model tests (creation, validation, string representation)
+Our comprehensive test suite includes 38 tests covering:
+- Model tests (creation, validation, string representation, i18n verbose names)
 - View tests (CRUD operations, authentication, authorization)
-- Form tests (validation, required fields)
+- Form tests (validation, required fields, i18n labels)
 - Authentication tests (registration, login, logout)
+- **Internationalization tests** (language switching, translations, model/form labels)
+- **Calendar tests** (views, API endpoint, event colors, user isolation, navigation)
 
 ## Project Structure
 
@@ -164,24 +202,34 @@ Our test suite includes 18 tests covering:
 Homework/
 ├── manage.py
 ├── todo_project/          # Project configuration
-│   ├── settings.py       # Main settings (Q2 answer)
-│   ├── urls.py
+│   ├── settings.py       # Main settings with i18n config (Q2 answer)
+│   ├── urls.py           # URL patterns with i18n_patterns
 │   ├── wsgi.py
 │   └── asgi.py
 ├── todos/                 # Django app
-│   ├── models.py         # TODO model
-│   ├── views.py          # Business logic (Q4 answer)
-│   ├── forms.py          # TodoForm and UserRegistrationForm
-│   ├── urls.py           # URL routing
+│   ├── models.py         # TODO model with i18n verbose names
+│   ├── views.py          # Business logic + calendar views (Q4 answer)
+│   ├── forms.py          # Forms with i18n labels
+│   ├── urls.py           # URL routing (incl. calendar routes)
 │   ├── admin.py          # Admin panel configuration
-│   ├── tests.py          # Test suite (Q6)
-│   └── templates/        # HTML templates (Q5)
-│       ├── base.html
-│       ├── home.html
+│   ├── tests.py          # Test suite with i18n & calendar tests (Q6)
+│   ├── static/           # Static files
+│   │   └── todos/
+│   │       └── images/
+│   │           └── logo.svg  # Custom SVG logo
+│   └── templates/        # HTML templates with i18n (Q5)
+│       ├── base.html     # Base with logo & language switcher
+│       ├── home.html     # List view + inline calendar toggle
+│       ├── calendar.html # Dedicated calendar page
 │       ├── todo_form.html
 │       └── registration/
 │           ├── login.html
 │           └── register.html
+├── locale/               # Translation files
+│   ├── ru/LC_MESSAGES/   # Russian translations
+│   ├── es/LC_MESSAGES/   # Spanish translations
+│   ├── zh_Hans/LC_MESSAGES/  # Chinese translations
+│   └── de/LC_MESSAGES/   # German translations
 ├── .gitignore
 └── README.md
 ```
@@ -204,6 +252,22 @@ Homework/
 - **Toggle Completion**: Click the circle icon next to TODO title
 - **Due Dates**: Overdue TODOs are highlighted in red
 
+### Language Switching
+- **Language Switcher**: Click the globe icon in the navigation bar
+- **Select Language**: Choose from English, Russian, Spanish, Chinese, or German
+- **Persistent Choice**: Language preference is remembered across sessions
+- **Direct Access**: Use language-specific URLs (e.g., /ru/, /es/, /zh-hans/, /de/)
+
+### Calendar View
+- **Access Calendar**: Click "Calendar" in navigation or toggle on home page
+- **View Modes**: Switch between month, week, and list views
+- **Color Coding**:
+  - Green events = Completed TODOs
+  - Red events = Overdue TODOs
+  - Blue events = Active TODOs
+- **Edit TODOs**: Click any calendar event to edit that TODO
+- **Inline Toggle**: On home page, switch between list and calendar view
+
 ### Admin Panel
 Access at http://127.0.0.1:8000/admin/ (requires superuser account)
 
@@ -216,10 +280,16 @@ python manage.py test
 
 Expected output:
 ```
-Found 18 test(s).
-Ran 18 tests in X.XXs
+Found 38 test(s).
+System check identified no issues (0 silenced).
+Ran 38 tests in X.XXs
 OK
 ```
+
+Tests include:
+- 14 original tests (models, views, forms, auth)
+- 10 internationalization tests
+- 14 calendar functionality tests
 
 ## Security Features
 
